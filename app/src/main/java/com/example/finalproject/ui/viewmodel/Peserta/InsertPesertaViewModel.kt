@@ -1,6 +1,32 @@
 package com.example.finalproject.ui.viewmodel.Peserta
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.finalproject.model.Peserta
+import com.example.finalproject.repository.PesertaRepository
+import kotlinx.coroutines.launch
+
+class InsertPesertaViewModel(private val peserta: PesertaRepository): ViewModel() {
+    var uiPesertaState by mutableStateOf(InsertPesertaUiState())
+        private set
+
+    fun updateInsertPesertaState(insertPesertaUiEvent: InsertPesertaUiEvent){
+        uiPesertaState = InsertPesertaUiState(insertPesertaUiEvent = insertPesertaUiEvent)
+    }
+
+    suspend fun insertPeserta(){
+        viewModelScope.launch {
+            try{
+                peserta.insertPeserta(uiPesertaState.insertPesertaUiEvent.toPeserta())
+            }catch (e: Exception){
+                e.printStackTrace()
+            }
+        }
+    }
+}
 
 data class InsertPesertaUiState(
     val insertPesertaUiEvent: InsertPesertaUiEvent = InsertPesertaUiEvent(),
