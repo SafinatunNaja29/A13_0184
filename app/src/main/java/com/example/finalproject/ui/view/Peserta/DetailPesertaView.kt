@@ -31,6 +31,13 @@ import com.example.finalproject.ui.viewmodel.Peserta.DetailPesertaUiState
 import com.example.finalproject.ui.viewmodel.Peserta.DetailPesertaViewModel
 import com.example.finalproject.ui.viewmodel.Peserta.toPeserta
 
+object DestinasiDetailPeserta: DestinasiNavigasi {
+    override val route = "detail Peserta"
+    const val ID_PESERTA = "id_peserta"
+    override val titleRes = "Detail Peserta"
+    val routeWithArg = "$route/{$ID_PESERTA}"
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailPesertaView(
