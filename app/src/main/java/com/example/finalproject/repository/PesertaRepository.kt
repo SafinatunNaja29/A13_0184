@@ -1,6 +1,7 @@
 package com.example.finalproject.repository
 
 import com.example.finalproject.model.Peserta
+import com.example.finalproject.service.PesertaService
 import okio.IOException
 
 interface PesertaRepository{
