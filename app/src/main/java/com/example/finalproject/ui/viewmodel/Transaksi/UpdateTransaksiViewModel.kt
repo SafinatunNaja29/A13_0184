@@ -34,8 +34,8 @@ class UpdateTransaksiViewModel(
         private set
     private val _id_transaksi: String = checkNotNull(savedStateHandle[DestinasiUpdateTransaksi.ID_TRANSAKSI])
 
-    var tiketList by mutableStateOf(listOf<Tiket>())
-        private set
+    private val _tiketList = MutableStateFlow<List<Tiket>>(emptyList())
+    val tiketList: StateFlow<List<Tiket>> get() = _tiketList
 
     init {
         fetchDropdownData()
@@ -45,9 +45,9 @@ class UpdateTransaksiViewModel(
     private fun fetchDropdownData() {
         viewModelScope.launch {
             try {
-                tiketList = transaksiRepository.getTransaksi().map { transaksi ->
+                val tiketData = transaksiRepository.getTransaksi().map { transaksi ->
                     Tiket(
-                        id_tiket = transaksi.id_tiket?: "",
+                        id_tiket = transaksi.id_tiket ?: "",
                         id_event = " ",
                         id_peserta = " ",
                         nama_peserta = transaksi.nama_peserta,
@@ -58,8 +58,7 @@ class UpdateTransaksiViewModel(
                         lokasi_event = " ",
                     )
                 }.distinctBy { it.id_tiket }
-                Log.d("DropdownData", "Tiket List: $tiketList")
-
+                _tiketList.value = tiketData // Update StateFlow
             } catch (e: Exception) {
                 Log.e("DropdownData", "Error fetching dropdown data: ${e.message}")
             }
@@ -71,7 +70,6 @@ class UpdateTransaksiViewModel(
             try {
                 val transaksi = transaksiRepository.getTransaksiById(_id_transaksi)
                 updateTransaksiUIState = transaksi.toUIStateTransaksi()
-                Log.d("TransaksiData", "Transaksi loaded: $transaksi")
             } catch (e: Exception) {
                 Log.e("TransaksiData", "Error loading transaksi data: ${e.message}")
             }
@@ -85,14 +83,11 @@ class UpdateTransaksiViewModel(
     suspend fun updateTransaksi() {
         viewModelScope.launch {
             try {
-                Log.d("UpdateTransaksi", "Updating transaksi with data: ${updateTransaksiUIState.insertTransaksiUiEvent.toTransaksi()}")
                 transaksiRepository.updateTransaksi(
-                id_transaksi = _id_transaksi,
-                transaksi = updateTransaksiUIState.insertTransaksiUiEvent.toTransaksi()
-            )
-                Log.d("UpdateTransaksi", "Transaksi successfully updated")
+                    id_transaksi = _id_transaksi,
+                    transaksi = updateTransaksiUIState.insertTransaksiUiEvent.toTransaksi()
+                )
             } catch (e: Exception) {
-                Log.e("UpdateTransaksi", "Error updating transaksi: ${e.message}")
                 updateTransaksiUIState = updateTransaksiUIState.copy(error = e.message)
             }
         }
