@@ -215,7 +215,6 @@ fun FormInput(
             }
         }
 
-        // Menampilkan Tanggal Event yang diambil dari pilihan Event
         OutlinedTextField(
             value = insertTransaksiUiEvent.nama_event,
             onValueChange = { },
@@ -226,7 +225,6 @@ fun FormInput(
             singleLine = true
         )
 
-        // Menampilkan Tanggal Event yang diambil dari pilihan Event
         OutlinedTextField(
             value = insertTransaksiUiEvent.nama_peserta,
             onValueChange = { },
