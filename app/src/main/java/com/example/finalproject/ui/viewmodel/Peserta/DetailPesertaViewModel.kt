@@ -10,6 +10,13 @@ import com.example.finalproject.model.Peserta
 import com.example.finalproject.repository.PesertaRepository
 import kotlinx.coroutines.launch
 
+object DestinasiDetailPeserta: DestinasiNavigasi {
+    override val route = "detail peserta"
+    const val ID_PESERTA = "id_peserta"
+    override val titleRes = "Detail Peserta"
+    val routeWithArg = "$route/{$ID_PESERTA}"
+}
+
 class DetailPesertaViewModel(
     savedStateHandle: SavedStateHandle,
     private val pesertaRepository: PesertaRepository
