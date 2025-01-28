@@ -5,19 +5,73 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.finalproject.model.Peserta
 import com.example.finalproject.ui.viewmodel.Peserta.DetailPesertaUiState
+import com.example.finalproject.ui.viewmodel.Peserta.DetailPesertaViewModel
+import com.example.finalproject.ui.viewmodel.Peserta.toPeserta
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DetailPesertaView(
+    navigateBack: () -> Unit,
+    navigateToEdit: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: DetailPesertaViewModel = viewModel(factory = PenyediaViewModel.Factory)
+) {
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    Scaffold(
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            CostumeTopAppBar(
+                canNavigateBack = true,
+                scrollBehavior = scrollBehavior,
+                onRefresh = viewModel::getPesertaById,
+                navigateUp = navigateBack,
+                judul = "Detail Data Peserta"
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = navigateToEdit,
+                shape = MaterialTheme.shapes.medium,
+                containerColor = Color(0xFF8B0000),
+                contentColor = Color.White,
+                modifier = Modifier.padding(18.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = "Edit Peserta"
+                )
+            }
+        }, containerColor = Color(0xFFececec)
+    ) { innerPadding ->
+        BodyDetailPeserta(
+            detailPesertaUiState = viewModel.detailPesertaUiState,
+            modifier = Modifier.padding(innerPadding)
+        )
+    }
+}
 
 @Composable
 fun BodyDetailPeserta(
