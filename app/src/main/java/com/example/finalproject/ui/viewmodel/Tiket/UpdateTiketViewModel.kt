@@ -1,5 +1,6 @@
 package com.example.finalproject.ui.viewmodel.Tiket
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -30,16 +31,54 @@ class UpdateTiketViewModel(
         private set
     private val _id_tiket: String = checkNotNull(savedStateHandle[DestinasiUpdateTiket.ID_TIKET])
 
-    private val _eventListState = MutableStateFlow<List<Event>>(emptyList())
-    val eventListState: StateFlow<List<Event>> = _eventListState
+    var eventList by mutableStateOf(listOf<Event>())
+        private set
 
-    private val _pesertaListState = MutableStateFlow<List<Peserta>>(emptyList())
-    val pesertaListState: StateFlow<List<Peserta>> = _pesertaListState
+    var pesertaList by mutableStateOf(listOf<Peserta>())
+        private set
+    init {
+        fetchDropdownData()
+        loadTiketData()
+    }
 
-    init{
+    private fun fetchDropdownData() {
         viewModelScope.launch {
-            updateTiketUIState = tiketRepository.getTiketById(_id_tiket)
-                .toUiStateTiket()
+            try {
+                eventList = tiketRepository.getTiket().map { tiket ->
+                    Event(
+                        id_event = tiket.id_event ?: "",
+                        nama_event = tiket.nama_event,
+                        tanggal_event = tiket.tanggal_event,
+                        lokasi_event = tiket.lokasi_event,
+                        deskripsi_event = " "
+                    )
+                }.distinctBy { it.id_event }
+                Log.d("DropdownData", "Event List: $eventList")
+
+                pesertaList = tiketRepository.getTiket().map { tiket ->
+                    Peserta(
+                        id_peserta = tiket.id_peserta?:" ",
+                        nama_peserta = tiket.nama_peserta,
+                        email = "",
+                        nomor_telepon = ""
+                    )
+                }.distinctBy { it.id_peserta }
+                Log.d("DropdownData", "Peserta List: $pesertaList")
+            } catch (e: Exception) {
+                Log.e("DropdownData", "Error fetching dropdown data: ${e.message}")
+            }
+        }
+    }
+
+    private fun loadTiketData() {
+        viewModelScope.launch {
+            try {
+                val tiket = tiketRepository.getTiketById(_id_tiket)
+                updateTiketUIState = tiket.toUIStateTiket()
+                Log.d("TiketData", "Tiket loaded: $tiket")
+            } catch (e: Exception) {
+                Log.e("TiketData", "Error loading tiket data: ${e.message}")
+            }
         }
     }
     fun updateTiketState(insertTiketUiEvent: InsertTiketUiEvent) {
@@ -47,13 +86,18 @@ class UpdateTiketViewModel(
     }
 
     suspend fun updateTiket() {
-        try {
-            tiketRepository.updateTiket(
-                id_tiket = _id_tiket,
-                tiket = updateTiketUIState.insertTiketUiEvent.toTiket()
-            )
-        } catch (e: Exception) {
-            updateTiketUIState = updateTiketUIState.copy(error = e.message)
+        viewModelScope.launch {
+            try {
+                Log.d("UpdateTiket", "Updating tiket with data: ${updateTiketUIState.insertTiketUiEvent.toTiket()}")
+                tiketRepository.updateTiket(
+                    id_tiket = _id_tiket,
+                    tiket = updateTiketUIState.insertTiketUiEvent.toTiket()
+                )
+                Log.d("UpdateTiket", "Tiket successfully updated")
+            } catch (e: Exception) {
+                Log.e("UpdateTiket", "Error updating tiket: ${e.message}")
+                updateTiketUIState = updateTiketUIState.copy(error = e.message)
+            }
         }
     }
 }
