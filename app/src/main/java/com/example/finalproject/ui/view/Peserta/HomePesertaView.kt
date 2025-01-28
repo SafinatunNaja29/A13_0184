@@ -49,6 +49,11 @@ import com.example.finalproject.model.Peserta
 import com.example.finalproject.ui.viewmodel.Peserta.HomePesertaUiState
 import com.example.finalproject.ui.viewmodel.Peserta.HomePesertaViewModel
 
+object DestinasiHomePeserta: DestinasiNavigasi {
+    override val route = "home peserta"
+    override val titleRes = "Home Peserta"
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePesertaScreen(
