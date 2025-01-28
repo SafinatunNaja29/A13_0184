@@ -10,6 +10,13 @@ import com.example.finalproject.model.Peserta
 import com.example.finalproject.repository.PesertaRepository
 import kotlinx.coroutines.launch
 
+object DestinasiUpdatePeserta: DestinasiNavigasi {
+    override val route = "update peserta"
+    const val ID_PESERTA = "id_peserta"
+    override val titleRes = "Detail Peserta"
+    val routeWithArg = "$route/{$ID_PESERTA}"
+}
+
 class UpdatePesertaViewModel(
     savedStateHandle: SavedStateHandle,
     private val pesertaRepository: PesertaRepository
