@@ -68,13 +68,13 @@ fun EntryTransaksiScreen(
     ) { innerPadding ->
         EntryBodyTransaksi(
             insertTransaksiUiState = viewModel.uiTransaksiState,
-            tiketList = tiketList,
             onTransaksiValueChange = viewModel::updateInsertTransaksiState,
             onSaveClick = {
                 coroutineScope.launch {
                     viewModel.insertTransaksi()
                     navigateBack()
                 }},
+            tiketList = tiketList,
             modifier = Modifier
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
@@ -87,8 +87,8 @@ fun EntryTransaksiScreen(
 fun EntryBodyTransaksi(
     insertTransaksiUiState: InsertTransaksiUiState,
     onTransaksiValueChange: (InsertTransaksiUiEvent) -> Unit,
-    tiketList: List<Tiket>,
     onSaveClick: () -> Unit,
+    tiketList: List<Tiket>,
     modifier: Modifier = Modifier
 ){
 
@@ -126,6 +126,10 @@ fun FormInput(
     ){
     var expanded by remember { mutableStateOf(false) } // State untuk dropdown
     var selectedTiket by remember { mutableStateOf<Tiket?>(null) } // Tiket yang dipilih
+
+    if (insertTransaksiUiEvent.id_tiket.isNotEmpty() && selectedTiket == null) {
+        selectedTiket = tiketList.find { it.id_tiket == insertTransaksiUiEvent.id_tiket }
+    }
 
     // State untuk menyimpan status error
     var isError by remember { mutableStateOf(false) }
