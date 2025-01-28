@@ -34,7 +34,7 @@ fun UpdateTransaksiView(
     val insertTransaksiUiState = viewModel.updateTransaksiUIState
     val coroutineScope = rememberCoroutineScope()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-    val tiketList by viewModel.tiketListState.collectAsState(initial = emptyList())
+    val tiketList = viewModel.tiketList
 
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
