@@ -117,7 +117,6 @@ fun FormInput(
             label = { Text("Id Event") },
             placeholder = { Text("Masukkan ID Event") },
             modifier = Modifier.fillMaxWidth(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             enabled = enabled,
             singleLine = true
         )
@@ -158,6 +157,7 @@ fun FormInput(
             label = { Text(text = "Tanggal Event") },
             placeholder = { Text("Masukkan Tanggal Event") },
             modifier = Modifier.fillMaxWidth(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             enabled = enabled,
             singleLine = true
         )
