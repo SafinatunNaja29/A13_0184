@@ -34,8 +34,8 @@ fun UpdateTiketView(
     val insertTiketUiState = viewModel.updateTiketUIState
     val coroutineScope = rememberCoroutineScope()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-    val eventList by viewModel.eventListState.collectAsState(initial = emptyList())
-    val pesertaList by viewModel.pesertaListState.collectAsState(initial = emptyList())
+    val eventList = viewModel.eventList
+    val pesertaList = viewModel.pesertaList
 
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
