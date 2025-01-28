@@ -12,6 +12,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.finalproject.ui.viewmodel.Peserta.UpdatePesertaViewModel
 import kotlinx.coroutines.launch
 
+object DestinasiUpdatePeserta : DestinasiNavigasi {
+    override val route = "update peserta"
+    const val ID_PESERTA = "id_peserta"
+    override val titleRes = "Edit Peserta"
+    val routeWithArg = "$route/{$ID_PESERTA}"
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UpdatePesertaView(
