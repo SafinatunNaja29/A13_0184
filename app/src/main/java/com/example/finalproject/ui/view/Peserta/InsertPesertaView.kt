@@ -3,15 +3,48 @@ package com.example.finalproject.ui.view.Peserta
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.finalproject.ui.viewmodel.Peserta.InsertPesertaUiEvent
+import com.example.finalproject.ui.viewmodel.Peserta.InsertPesertaUiState
+
+@Composable
+fun EntryBodyPeserta(
+    insertPesertaUiState: InsertPesertaUiState,
+    onPesertaValueChange: (InsertPesertaUiEvent) -> Unit,
+    onSaveClick: () -> Unit,
+    modifier: Modifier = Modifier
+){
+    Column(
+        verticalArrangement = Arrangement.spacedBy(18.dp),
+        modifier = modifier.padding(12.dp)
+    ) {
+        FormInput(
+            insertPesertaUiEvent = insertPesertaUiState.insertPesertaUiEvent,
+            onValueChange = onPesertaValueChange,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Button(
+            onClick = onSaveClick,
+            shape = MaterialTheme.shapes.small,
+            modifier = Modifier.fillMaxWidth(),
+            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF8B0000),
+                contentColor = Color.White)
+        ) {
+            Text(text = "Simpan")
+        }
+    }
+}
 
 @Composable
 fun FormInput(
