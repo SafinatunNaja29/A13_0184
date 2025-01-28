@@ -27,6 +27,11 @@ import com.example.finalproject.ui.viewmodel.Peserta.InsertPesertaUiState
 import com.example.finalproject.ui.viewmodel.Peserta.InsertPesertaViewModel
 import kotlinx.coroutines.launch
 
+object DestinasiEntryPeserta: DestinasiNavigasi {
+    override val route = "entry peserta"
+    override val titleRes = "Insert Peserta"
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EntryPesertaScreen(
