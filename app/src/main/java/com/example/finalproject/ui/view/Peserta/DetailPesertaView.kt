@@ -1,11 +1,13 @@
 package com.example.finalproject.ui.view.Peserta
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,6 +17,47 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.finalproject.model.Peserta
+import com.example.finalproject.ui.viewmodel.Peserta.DetailPesertaUiState
+
+@Composable
+fun BodyDetailPeserta(
+    detailPesertaUiState: DetailPesertaUiState,
+    modifier: Modifier = Modifier
+) {
+    when {
+        detailPesertaUiState.isLoading -> {
+            Box(
+                modifier = modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+        detailPesertaUiState.isError -> {
+            Box(
+                modifier = modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = detailPesertaUiState.errorMessage,
+                    color = Color.Red
+                )
+            }
+        }
+        detailPesertaUiState.isUiPesertaNotEmpty -> {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                ItemDetailPeserta(
+                    peserta = detailPesertaUiState.detailPesertaUiEvent.toPeserta(),
+                    modifier = modifier
+                )
+            }
+        }
+    }
+}
 
 @Composable
 fun ItemDetailPeserta(
