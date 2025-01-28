@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.finalproject.model.Peserta
 import com.example.finalproject.repository.PesertaRepository
+import com.example.finalproject.ui.navigation.DestinasiNavigasi
 import kotlinx.coroutines.launch
 
 object DestinasiDetailPeserta: DestinasiNavigasi {

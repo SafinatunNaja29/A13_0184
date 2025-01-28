@@ -27,6 +27,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.finalproject.model.Peserta
+import com.example.finalproject.ui.customwidget.CostumeTopAppBar
+import com.example.finalproject.ui.navigation.DestinasiNavigasi
+import com.example.finalproject.ui.viewmodel.PenyediaViewModel
 import com.example.finalproject.ui.viewmodel.Peserta.DetailPesertaUiState
 import com.example.finalproject.ui.viewmodel.Peserta.DetailPesertaViewModel
 import com.example.finalproject.ui.viewmodel.Peserta.toPeserta

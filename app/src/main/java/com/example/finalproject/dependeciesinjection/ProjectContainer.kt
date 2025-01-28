@@ -1,8 +1,17 @@
 package com.example.finalproject.dependeciesinjection
 
+import com.example.finalproject.repository.EventRepository
+import com.example.finalproject.repository.NetworkEventRepository
 import com.example.finalproject.repository.NetworkPesertaRepository
+import com.example.finalproject.repository.NetworkTiketRepository
+import com.example.finalproject.repository.NetworkTransaksiRepository
 import com.example.finalproject.repository.PesertaRepository
+import com.example.finalproject.repository.TiketRepository
+import com.example.finalproject.repository.TransaksiRepository
+import com.example.finalproject.service.EventService
 import com.example.finalproject.service.PesertaService
+import com.example.finalproject.service.TiketService
+import com.example.finalproject.service.TransaksiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
