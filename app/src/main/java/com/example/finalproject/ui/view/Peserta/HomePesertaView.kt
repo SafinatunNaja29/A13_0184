@@ -2,10 +2,12 @@ package com.example.finalproject.ui.view.Peserta
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,8 +28,41 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.finalproject.model.Peserta
+import com.example.finalproject.ui.viewmodel.Peserta.HomePesertaUiState
+
+@Composable
+fun HomePesertaStatus(
+    homePesertaUiState: HomePesertaUiState,
+    retryAction: () -> Unit,
+    modifier: Modifier,
+    onDeleteClick: (Peserta) -> Unit,
+    onDetailClick: (String) -> Unit
+){
+    when {
+        homePesertaUiState is HomePesertaUiState.Loading -> OnLoading(modifier = modifier.fillMaxSize())
+        homePesertaUiState is HomePesertaUiState.Success ->
+            if(homePesertaUiState.peserta.isEmpty()){
+                return Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+                    Text(text = "Data Peserta belum ditambahkan.",
+                        fontWeight = FontWeight.Bold)
+                }
+            }else{
+                PesertaLayout(
+                    peserta = homePesertaUiState.peserta,
+                    modifier = modifier.fillMaxWidth(),
+                    onDetailClick = {
+                        onDetailClick(it.id_peserta) },
+                    onDeleteClick = {
+                        onDeleteClick(it)
+                    }
+                )
+            }
+        homePesertaUiState is HomePesertaUiState.Error -> OnError(retryAction, modifier = modifier.fillMaxSize())
+    }
+}
 
 @Composable
 fun PesertaLayout(
